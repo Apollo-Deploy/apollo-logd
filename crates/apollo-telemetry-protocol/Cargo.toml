@@ -1,0 +1,16 @@
+[package]
+name = "apollo-telemetry-protocol"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+crc32fast.workspace = true
+
+[target.'cfg(target_os = "linux")'.dependencies]
+rustix = { version = "=1.1.5", features = ["net", "fs", "event", "process", "time", "pipe"] }
+
+[lints]
+workspace = true

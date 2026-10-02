@@ -1,0 +1,62 @@
+[package]
+name = "apollo-logd"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+license = "MIT"
+publish = false
+repository = "https://github.com/Apollo-Deploy/apollo-logd"
+readme = "README.md"
+description = "Bounded Linux log capture and write-ahead log daemon"
+
+[dependencies]
+apollo-telemetry-protocol = { path = "crates/apollo-telemetry-protocol", version = "=0.1.0" }
+crc32fast = "=1.5.2"
+
+[target.'cfg(target_os = "linux")'.dependencies]
+rustix = { version = "=1.1.5", features = ["event", "fs", "net", "process", "time"] }
+signal-hook = { version = "=0.3.18", default-features = false }
+
+[lints.rust]
+unsafe_code = "forbid"
+unused_must_use = "deny"
+
+[lints.clippy]
+correctness = "deny"
+expect_used = "deny"
+panic = "deny"
+unwrap_used = "deny"
+
+[profile.release]
+codegen-units = 1
+lto = "thin"
+panic = "abort"
+strip = "symbols"
+
+[workspace]
+resolver = "3"
+members = ["crates/apollo-telemetry-protocol"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+license = "MIT"
+publish = false
+
+[workspace.dependencies]
+crc32fast = "=1.5.2"
+ed25519-dalek = { version = "=2.2.0", default-features = false, features = ["std", "zeroize"] }
+prost = "=0.14.3"
+prost-build = "=0.14.3"
+protoc-bin-vendored = "=3.2.0"
+thiserror = "=2.0.18"
+
+[workspace.lints.rust]
+unsafe_code = "deny"
+unused_must_use = "deny"
+[workspace.lints.clippy]
+correctness = "deny"
+expect_used = "deny"
+panic = "deny"
+unwrap_used = "deny"
